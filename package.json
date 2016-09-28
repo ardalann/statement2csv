@@ -1,0 +1,19 @@
+{
+  "name": "statement2csv",
+  "version": "1.0.0",
+  "description": "Convert your bank statement PDF to a standard CSV — Edit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ardalann/statement2csv.git"
+  },
+  "author": "Ardalan Naghshineh",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ardalann/statement2csv/issues"
+  },
+  "homepage": "https://github.com/ardalann/statement2csv#readme"
+}
