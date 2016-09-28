@@ -1,6 +1,12 @@
 # statement2csv
 Convert your bank statement PDF to a standard CSV
 
+## Why this, and [not](https://www.jetconvert.com.au/bankstatements/) [the](https://www.moneythumb.com/shop/pdf2csv-convert-plus/) [alternatives](http://www.statementreader.com/)?
+- This is **free** (and **open-source**).
+- This is **secure**. This app does all the processing on your machine, and your statement is not uploaded to a server set up at the basement of a hacker's house.
+- This is **fast**. Since all the processing is done on your machine and nothing is sent or received over the internet, this is blazingly fast unless you're using a Commodore 64 in which case you are still getting paper statements and you think PDF is an STD, so this is not for you.
+
+## Contribute
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.  
