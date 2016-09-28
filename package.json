@@ -9,7 +9,10 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "repository": {
     "type": "git",
@@ -18,16 +21,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "moment": "^2.15.1",
+    "pdfjs-dist": "^1.5.492",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
   },
   "devDependencies": {
     "react-scripts": "0.6.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
   }
 }
