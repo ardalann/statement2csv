@@ -1,7 +1,12 @@
 {
   "name": "statement2csv",
-  "version": "1.0.0",
   "description": "Convert your bank statement PDF to a standard CSV — Edit",
+  "author": "Ardalan Naghshineh",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/ardalann/statement2csv#readme",
+  "bugs": {
+    "url": "https://github.com/ardalann/statement2csv/issues"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,10 +15,19 @@
     "type": "git",
     "url": "git+https://github.com/ardalann/statement2csv.git"
   },
-  "author": "Ardalan Naghshineh",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/ardalann/statement2csv/issues"
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
   },
-  "homepage": "https://github.com/ardalann/statement2csv#readme"
+  "devDependencies": {
+    "react-scripts": "0.6.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
 }
