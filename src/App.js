@@ -166,7 +166,12 @@ class App extends Component {
         row.push(cell);
       }
     });
-    
+
+    if (row.length > 0) {
+      pushRow(row);
+      row = [];
+    }
+
     return rows;
   }
   render() {
