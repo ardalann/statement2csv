@@ -24,7 +24,7 @@ class App extends Component {
           replace: '',
         },
         {
-          search: /^([A-Z]{3} [0-9]{2})[ ]{3}[A-Z]{3} [0-9]{2}[ ]{2}(.*)$/g,
+          search: /^([A-Z]{3} [0-9]{2})[ ]{2,3}[A-Z]{3} [0-9]{2}[ ]{1,2}(.*)$/g,
           replace: '$1{SPLIT}$2',
         },
         {
@@ -109,6 +109,8 @@ class App extends Component {
 
         str = str.trim();
 
+        // console.log('str', str);
+
         let strArr = str
           .split(/\{SPLIT\}/g)
           .map(st => st.trim())
@@ -117,6 +119,8 @@ class App extends Component {
         cells.push(...strArr);
       }
     });
+
+    // console.log('cells', cells);
 
     const pushRow = (row) => {
       row[this.settings.dateColumn] = moment(row[this.settings.dateColumn], this.settings.inputDatePattern).format(this.settings.outputDatePattern);
@@ -141,6 +145,8 @@ class App extends Component {
           }
         });
       });
+
+      // console.log('pushed', row);
 
       rows.push(row);
 
@@ -168,6 +174,7 @@ class App extends Component {
     });
 
     if (row.length > 0) {
+      // console.log('row',row);
       pushRow(row);
       row = [];
     }
