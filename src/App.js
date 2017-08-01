@@ -16,7 +16,7 @@ class App extends Component {
       rowsBeginning: /^DATE$/g,
       rowsEnding: /^NEW BALANCE$/g,
       rowBeginning: /^[A-Z]{3} [0-9]{2}$/g,
-      rowEnding: null,
+      rowEnding: null, // /^[0-9]{2}\.[0-9]{2}$/g,
       ignoreNumeric: true,
       replacements: [
         {
@@ -24,7 +24,7 @@ class App extends Component {
           replace: '',
         },
         {
-          search: /^([A-Z]{3} [0-9]{2})[ ]{2,3}[A-Z]{3} [0-9]{2}[ ]{1,2}(.*)$/g,
+          search: /^([A-Z]{3} [0-9]{2})[ ]{2,4}[A-Z]{3} [0-9]{2}[ ]{1,2}(.*)$/g,
           replace: '$1{SPLIT}$2',
         },
         {
@@ -116,6 +116,8 @@ class App extends Component {
           .map(st => st.trim())
           .filter(st => st.length > 0);
 
+        // console.log('item2cells', item, strArr);
+
         cells.push(...strArr);
       }
     });
@@ -123,6 +125,8 @@ class App extends Component {
     // console.log('cells', cells);
 
     const pushRow = (row) => {
+      // console.log('pushRow', row);
+
       row[this.settings.dateColumn] = moment(row[this.settings.dateColumn], this.settings.inputDatePattern).format(this.settings.outputDatePattern);
 
       // if (this.settings.categoryColumn || this.settings.categoryColumn.length === 0) {
@@ -157,6 +161,8 @@ class App extends Component {
 
     let row = [];
 
+    // console.log('cells to iterate', cells);
+
     cells.forEach(cell => {
       if (this.settings.rowBeginning && cell.match(this.settings.rowBeginning)) {
         if (row.length > 0) {
@@ -174,7 +180,7 @@ class App extends Component {
     });
 
     if (row.length > 0) {
-      // console.log('row',row);
+      // console.log('Last row',row);
       pushRow(row);
       row = [];
     }
