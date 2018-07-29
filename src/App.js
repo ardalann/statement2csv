@@ -1,205 +1,46 @@
-import React, { Component } from 'react';
-import PDFJS from 'pdfjs-dist';
-import moment from 'moment';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import pdfToCsv from "./helpers/pdfToCsv";
+import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super(...arguments);
+  state = {
+    encodedCsv: "",
+    fileName: ""
+  };
+  handleUpload = e => {
+    const generatedFileName = this._input.files[0].name.replace(".pdf", ".csv");
 
-    this.state = {
-      rows: [],
-    };
-
-    this.settings = {
-      rowsBeginning: /^DATE$/g,
-      rowsEnding: /^NEW BALANCE$/g,
-      rowBeginning: /^[A-Z]{3} [0-9]{2}$/g,
-      rowEnding: null, // /^[0-9]{2}\.[0-9]{2}$/g,
-      ignoreNumeric: true,
-      replacements: [
-        {
-          search: 'CALGARY AB',
-          replace: '',
-        },
-        {
-          search: /^([A-Z]{3} [0-9]{2})[ ]{2,4}[A-Z]{3} [0-9]{2}[ ]{1,2}(.*)$/g,
-          replace: '$1{SPLIT}$2',
-        },
-        {
-          search: /\$([0-9]),([0-9]{3})/g,
-          replace: '$1$2',
-        },
-        {
-          search: /(\-?)\$([0-9]+\.[0-9]{2})$/g,
-          replace: '$1$2',
-        },
-      ],
-      joins: [
-        {
-          search: /^Foreign Currency\-(.*)$/g,
-          replace: ' ($1',
-          join: 1,
-        },
-        {
-          search: /^Exchange rate\-(.*)$/g,
-          replace: ' - Rate $1)',
-          join: 1,
-        },
-      ],
-      columnTitles: [
-        'Date',
-        'Description',
-        'Amount',
-        // 'Category',
-      ],
-      dateColumn: 0,
-      inputDatePattern: 'll DD',
-      outputDatePattern: 'L',
-      // descriptionColumn: 1,
-      // categoryColumn: 3,
-      // categories: [
-      //   {
-      //     search: 'TIM',
-      //     category: '"Restaurants, Coffee & Bars"',
-      //   },
-      // ],
-    };
-  }
-  componentDidMount() {
-    PDFJS.getDocument('test.pdf').then(PDF => {
-      this.importPages(PDF);
-    });
-  }
-  importPages(PDF, pageNum, rows) {
-    pageNum = pageNum || 1;
-    rows = rows || [this.settings.columnTitles];
-
-    PDF.getPage(pageNum).then(page => {
-      page.getTextContent().then(textContent => {
-        rows.push(...this.extractPageRows(textContent.items));
-        
-        if (pageNum < PDF.numPages) {
-          this.importPages(PDF, pageNum + 1, rows);
-        } else {
-          this.setState({rows: rows});
-        }
-      });
-    });
-  }
-  extractPageRows(textContentItems) {
-    let cells = [];
-    let rows = [];
-    let foundBeginning = false;
-
-    textContentItems.forEach(item => {
-      if (item.str.match(this.settings.rowsBeginning)) {
-        foundBeginning = true;
-      } else if (item.str.match(this.settings.rowsEnding)) {
-        foundBeginning = false;
-      } else if (this.settings.ignoreNumeric && !isNaN(item.str)) {
-        // Skip
-      } else if (foundBeginning) {
-        let str = item.str;
-
-        this.settings.replacements.forEach(replacement => {
-          str = str.replace(replacement.search, replacement.replace);
-        });
-
-        str = str.trim();
-
-        // console.log('str', str);
-
-        let strArr = str
-          .split(/\{SPLIT\}/g)
-          .map(st => st.trim())
-          .filter(st => st.length > 0);
-
-        // console.log('item2cells', item, strArr);
-
-        cells.push(...strArr);
-      }
-    });
-
-    // console.log('cells', cells);
-
-    const pushRow = (row) => {
-      // console.log('pushRow', row);
-
-      row[this.settings.dateColumn] = moment(row[this.settings.dateColumn], this.settings.inputDatePattern).format(this.settings.outputDatePattern);
-
-      // if (this.settings.categoryColumn || this.settings.categoryColumn.length === 0) {
-      //   row[this.settings.categoryColumn] = '';
-      //   this.settings.categories.forEach(categoryInfo => {
-      //     if (row[this.settings.categoryColumn].length > 0) return; // Already found
-
-      //     if (row[this.settings.descriptionColumn].search(categoryInfo.search) > -1) {
-      //       row[this.settings.categoryColumn] = categoryInfo.category;
-      //     }
-      //   });
-      // }
-      
-      row.forEach((cell, key) => {
-        this.settings.joins.forEach(join => {
-          if (row[key].search(join.search) > -1) {
-            row[key] = row[key].replace(join.search, join.replace);
-            row[join.join] += row[key];
-            row.splice(key, 1);
-          }
+    const reader = new FileReader();
+    const _this = this;
+    reader.onload = function() {
+      const arrayBuffer = this.result;
+      pdfToCsv(arrayBuffer).then(csv => {
+        _this.setState({
+          encodedCsv: `data:text/csv;charset=utf-8,${encodeURI(csv)}`,
+          fileName: generatedFileName
         });
       });
-
-      // console.log('pushed', row);
-
-      rows.push(row);
-
-      if (row.length !== this.settings.columnTitles.length) {
-        console.warn('Invalid row length', row);
-      }
     };
-
-    let row = [];
-
-    // console.log('cells to iterate', cells);
-
-    cells.forEach(cell => {
-      if (this.settings.rowBeginning && cell.match(this.settings.rowBeginning)) {
-        if (row.length > 0) {
-          pushRow(row);
-          row = [];
-        }
-        row.push(cell);
-      } else if (this.settings.rowEnding && cell.match(this.settings.rowEnding)) {
-        row.push(cell);
-        pushRow(row);
-        row = [];
-      } else {
-        row.push(cell);
-      }
-    });
-
-    if (row.length > 0) {
-      // console.log('Last row',row);
-      pushRow(row);
-      row = [];
-    }
-
-    return rows;
-  }
+    reader.readAsArrayBuffer(this._input.files[0]);
+  };
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
         <div className="App-intro">
-          {this.state.rows.map((row, key) => 
-            <div key={key + row}>
-              {row.map(cell => `"${cell}"`).join(',')}
-            </div>
-          )}
+          <input
+            className="App-input"
+            type="file"
+            ref={ref => (this._input = ref)}
+            onChange={this.handleUpload}
+          />
+          <a
+            className="App-link"
+            ref={ref => (this._link = ref)}
+            href={this.state.encodedCsv}
+            download={this.state.fileName}
+          >
+            {this.state.fileName}
+          </a>
         </div>
       </div>
     );
