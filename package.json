@@ -3,7 +3,7 @@
   "description": "Convert your bank statement PDF to a standard CSV — Edit",
   "author": "Ardalan Naghshineh",
   "license": "GPL-3.0",
-  "homepage": "https://github.com/ardalann/statement2csv#readme",
+  "homepage": "https://ardalann.github.io/statement2csv/",
   "bugs": {
     "url": "https://github.com/ardalann/statement2csv/issues"
   },
