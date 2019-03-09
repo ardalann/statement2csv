@@ -16,7 +16,7 @@ class App extends Component {
       const arrayBuffer = this.result;
       pdfToCsv(arrayBuffer).then(csv => {
         _this.setState({
-          encodedCsv: `data:text/csv;charset=utf-8,${encodeURI(csv)}`,
+          encodedCsv: `data:text/csv;charset=utf-8,${encodeURI(csv).replace(/#/g, "-")}`,
           fileName: generatedFileName
         });
       });
