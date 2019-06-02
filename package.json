@@ -22,7 +22,7 @@
   "private": true,
   "dependencies": {
     "moment": "^2.15.1",
-    "pdfjs-dist": "^1.5.492",
+    "pdfjs-dist": "^2.0.201",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },

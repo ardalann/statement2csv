@@ -4147,9 +4147,9 @@ pbkdf2-compat@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/pbkdf2-compat/-/pbkdf2-compat-2.0.1.tgz#b6e0c8fa99494d94e0511575802a59a5c142f288"
 
-pdfjs-dist@^1.5.492:
-  version "1.10.100"
-  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-1.10.100.tgz#d5a250b42482ab6e41d763a795ce7cdebe6b1894"
+pdfjs-dist@^2.0.201:
+  version "2.0.201"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.0.201.tgz#8b5fdddc705f9da606bae9809783b565e3b7b6cf"
   dependencies:
     node-ensure "^0.0.0"
     worker-loader "^1.0.0"
