@@ -21,7 +21,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "moment": "^2.15.1",
+    "moment": "^2.24.0",
     "pdfjs-dist": "^1.5.492",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
