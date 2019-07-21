@@ -21,18 +21,18 @@ const settings = {
       replace: "$1$2"
     },
     {
-      search: /(\-?)\$([0-9]+\.[0-9]{2})$/g,
+      search: /(-?)\$([0-9]+\.[0-9]{2})$/g,
       replace: "$1$2"
     }
   ],
   joins: [
     {
-      search: /^Foreign Currency\-(.*)$/g,
+      search: /^Foreign Currency-(.*)$/g,
       replace: " ($1",
       join: 1
     },
     {
-      search: /^Exchange rate\-(.*)$/g,
+      search: /^Exchange rate-(.*)$/g,
       replace: " - Rate $1)",
       join: 1
     }
