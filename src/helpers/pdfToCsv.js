@@ -1,6 +1,13 @@
 import PDFJS from "pdfjs-dist";
 import moment from "moment";
 
+/**
+ * Fix for the following error:
+ * ./node_modules/pdfjs-dist/build/pdf.js
+ * Critical dependency: require function is used in a way in which dependencies cannot be statically extracted
+ */
+PDFJS.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.1.266/pdf.worker.js';
+
 const settings = {
   rowsBeginning: /^DATE$/g,
   rowsEnding: /^NEW BALANCE$/g,
