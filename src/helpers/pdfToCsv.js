@@ -11,7 +11,7 @@ PDFJS.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/2
 const settings = {
   rowsBeginning: /^DATE$/g,
   rowsEnding: /^NEW BALANCE$/g,
-  rowBeginning: /^[A-Z]{3} [0-9]{2}$/g,
+  rowBeginning: /^[A-Z]{3} [0-9]{1,2}$/,
   rowEnding: null, // /^[0-9]{2}\.[0-9]{2}$/g,
   ignoreNumeric: true,
   replacements: [
@@ -51,7 +51,7 @@ const settings = {
     // 'Category',
   ],
   dateColumn: 0,
-  inputDatePattern: "ll DD",
+  inputDatePattern: "MMM DD",
   outputDatePattern: "L"
   // descriptionColumn: 1,
   // categoryColumn: 3,
